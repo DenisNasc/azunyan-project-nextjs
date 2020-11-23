@@ -4,5 +4,8 @@
   "semi": true,
   "bracketSpacing": false,
   "jsxBracketSameLine": false,
-  "arrowParens": "avoid"
+  "arrowParens": "avoid",
+  "endOfLine": "lf",
+  "tabWidth": 2,
+  "trailingComma": "es5"
 }

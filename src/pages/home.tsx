@@ -2,7 +2,6 @@ import React from 'react';
 import Head from 'next/head';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-
 import {Grid} from '@material-ui/core';
 
 import Player from '../components/systems/Player';
@@ -55,6 +54,7 @@ const playlists: TypePlaylist[] = [
 
 const HomePage: React.FC<PropsHomePage> = () => {
   const classes = useStyles({});
+
   return (
     <>
       <Head>

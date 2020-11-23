@@ -1,6 +1,5 @@
-import {TypePlaylist} from 'components/molecules/HomeLateralMenu';
-import {Action} from 'redux';
-import {StateController} from 'state/store/types';
+import type {Action} from 'redux';
+import type {StateController} from 'state/store/types';
 
 type TypeMusic = {
   id: string;
@@ -22,24 +21,29 @@ type TypeUser = {
   playlists: TypePlaylist[];
 };
 
+type TypeCurrentMusic = {
+  artist: string;
+  name: string;
+  lyrics: string[][];
+};
+
 type PayloadAppReducer = {
   query?: string;
-  currentMusic?: {name: string; lyrics: string[]; artist: string};
+  currentMusic?: TypeCurrentMusic;
   user?: TypeUser;
   music?: TypeMusic;
   errorMessage?: string;
   stateController?: StateController;
 };
 
-export interface StateAppReducer {
-  query: string;
-  currentMusic: {artist: string; name: string; lyrics: string[]};
-  user: TypeUser;
-  musicsDB: {artistName: string; musics: {lyrics: string[]; name: string}[]}[];
-  errorMessage: string;
-  stateController: StateController;
-}
-
 export interface ActionAppReducer extends Action<string> {
   payload?: PayloadAppReducer;
+}
+
+export interface StateAppReducer {
+  query: string;
+  currentMusic: TypeCurrentMusic;
+  user: TypeUser;
+  errorMessage: string;
+  stateController: StateController;
 }

@@ -1,36 +1,49 @@
-import React from 'react';
+import React, {useCallback} from 'react';
+import {useDispatch} from 'react-redux';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {Container, Paper, Typography} from '@material-ui/core';
+import {Container, List, ListItem, Typography} from '@material-ui/core';
 
-import CustomLyrics from 'components/atoms/CustomLyrics';
+import CustomVerse from 'components/atoms/CustomVerse';
+import {HANDLE_MUSIC_QUERY} from 'state/actions/app';
+
+import type {TypeCurrentMusic} from 'state/reducers/app/types';
 
 interface PropsDisplayLyrics {
-  currentMusic: {artist: string; name: string; lyrics: string[]};
+  currentMusic: TypeCurrentMusic;
 }
 
 const DisplayLyrics: React.FC<PropsDisplayLyrics> = ({currentMusic: {name, artist, lyrics}}) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const setQuery = useCallback(() => {
+    const payload = {
+      query: artist,
+    };
+    dispatch({type: HANDLE_MUSIC_QUERY, payload});
+  }, [dispatch, artist]);
 
   return (
-    <Container className={classes.container} elevation={0}>
+    <Container className={classes.container}>
       <Container className={classes.header}>
-        <Typography className={classes.name} variant="subtitle1">
+        <Typography className={classes.typographyName} variant="h5">
           {name.toUpperCase()}
         </Typography>
-        <Typography className={classes.artist} variant="subtitle2">
+        <Typography className={classes.typographyArtist} variant="h5" onClick={setQuery}>
           {artist.toUpperCase()}
         </Typography>
       </Container>
-      <Paper className={classes.paperLyrics}>
-        <ul className={classes.ulLyrics}>
-          {lyrics.map((e, i) => (
-            <li key={`${e}-${i}`} className={classes.paragrafLyrics}>
-              <CustomLyrics paragrafs={e} />
-            </li>
-          ))}
-        </ul>
-      </Paper>
+
+      <List className={classes.ListLyrics}>
+        {lyrics.map(paragraf => (
+          <ListItem key={(Math.random() * 10000).toFixed(0)} className={classes.listItemLyrics}>
+            {paragraf.map(verse => (
+              <CustomVerse key={(Math.random() * 10000).toFixed(0)} verse={verse} />
+            ))}
+          </ListItem>
+        ))}
+      </List>
     </Container>
   );
 };
@@ -55,35 +68,38 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       justifyContent: 'space-between',
       height: '40px',
-      width: '60%',
+      width: '80%',
       padding: '0px',
       margin: '0px',
       marginTop: `${theme.spacing(3)}px`,
     },
-    paperLyrics: {
-      width: '80%',
-      maxHeight: '800px',
-      marginBottom: `${theme.spacing(3)}px`,
-      overflowY: 'scroll',
-      background: theme.palette.background.paper,
-    },
-    ulLyrics: {
+    ListLyrics: {
       listStyle: 'none',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       padding: '0px',
       margin: '0px',
-      width: '100%',
+      width: '80%',
+      maxHeight: '800px',
+      overflowY: 'scroll',
+      background: theme.palette.background.paper,
+      marginBottom: `${theme.spacing(3)}px`,
     },
-    paragrafLyrics: {
+    listItemLyrics: {
+      display: 'flex',
+      flexDirection: 'column',
       margin: '10px 0px',
       padding: '0px',
       width: '100%',
       textAlign: 'center',
     },
-    name: {},
-    artist: {},
+    typographyName: {},
+    typographyArtist: {
+      '&:hover': {
+        cursor: 'pointer',
+      },
+    },
     lyrics: {width: '100%', margin: '0px', padding: '0px'},
   })
 );

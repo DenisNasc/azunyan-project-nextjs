@@ -19,8 +19,7 @@ import {SET_CURRENT_MUSIC} from 'state/actions/app';
 
 interface Props {
   artistName: string;
-
-  musics: {lyrics: string[]; name: string}[];
+  musics: {lyrics: string[][]; name: string}[];
 }
 
 const CustomArtistCard: React.FC<Props> = ({artistName, musics}) => {

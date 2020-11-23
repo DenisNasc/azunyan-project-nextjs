@@ -1,9 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 
 import {Grid} from '@material-ui/core';
+
+import createAxiosInstance from 'axios-config';
 
 import DisplaySearch from 'components/molecules/DisplaySearch';
 import DisplayLyrics from 'components/molecules/DisplayLyrics';
@@ -11,20 +13,27 @@ import DisplayLyrics from 'components/molecules/DisplayLyrics';
 import type {StateAppReducer} from 'state/reducers/app/types';
 import type {StateStore} from 'state/store/types';
 
-const HomeDisplay = () => {
+const HomeDisplay: React.FC = () => {
   const classes = useStyles();
-  const {query, musicsDB, currentMusic} = useSelector<StateStore, StateAppReducer>(
-    state => state.appReducer
-  );
+  const [musicsFromDB, setMusicsFromDB] = useState([]);
+
+  const axios = createAxiosInstance();
+
+  const {query, currentMusic} = useSelector<StateStore, StateAppReducer>(state => state.appReducer);
 
   useEffect(() => {
-    console.log('mudou');
-  }, [query]);
+    const awaitAxios = async () => {
+      const {data} = await axios.get(`/mongo/musics?artist=all`);
+      setMusicsFromDB(data);
+    };
+
+    awaitAxios();
+  }, []);
 
   return (
     <Grid container className={classes.container}>
       <Grid item container xs={5} className={classes.containerLeft}>
-        <DisplaySearch query={query} musicsDB={musicsDB} />
+        <DisplaySearch query={query} musicsFromDB={musicsFromDB} />
       </Grid>
       <Grid
         item

@@ -7,26 +7,34 @@ import {List, ListItem} from '@material-ui/core';
 import CustomSearchMusic from 'components/atoms/CustomSearchMusic';
 import CustomArtistCard from 'components/atoms/CustomArtistCard';
 
+type TypeMusicsFromDB = {
+  _id: string;
+  artist: string;
+  musics: {name: string; lyrics: string[][]}[];
+}[];
+
 interface Props {
   query: string;
-  musicsDB: {artistName: string; musics: {lyrics: string[]; name: string}[]}[];
+  musicsFromDB: TypeMusicsFromDB;
 }
 
-const DisplaySearch: React.FC<Props> = ({query, musicsDB}) => {
+const DisplaySearch: React.FC<Props> = ({query, musicsFromDB}) => {
   const classes = useStyles();
 
   return (
     <div className={classes.container}>
       <CustomSearchMusic />
-      <List className={classes.artistsList}>
-        {musicsDB
-          .filter(({artistName}) => artistName.toLowerCase().includes(query.trim().toLowerCase()))
-          .map(({artistName, musics}) => (
-            <ListItem key={artistName} className={classes.artistsListItem}>
-              <CustomArtistCard artistName={artistName} musics={musics} />
-            </ListItem>
-          ))}
-      </List>
+      {!!musicsFromDB.length && (
+        <List className={classes.artistsList}>
+          {musicsFromDB
+            .filter(({artist}) => artist.toLowerCase().includes(query.trim().toLowerCase()))
+            .map(({artist, musics}) => (
+              <ListItem key={artist} className={classes.artistsListItem}>
+                <CustomArtistCard artistName={artist} musics={musics} />
+              </ListItem>
+            ))}
+        </List>
+      )}
     </div>
   );
 };
