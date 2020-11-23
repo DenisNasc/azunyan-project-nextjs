@@ -1,13 +1,16 @@
 import React from 'react';
 import clsx from 'clsx';
-import { useRouter } from 'next/router';
-import NextLink, { LinkProps as NextLinkProps } from 'next/link';
-import MuiLink, { LinkProps as MuiLinkProps } from '@material-ui/core/Link';
+import {useRouter} from 'next/router';
+import NextLink, {LinkProps as NextLinkProps} from 'next/link';
+import MuiLink, {LinkProps as MuiLinkProps} from '@material-ui/core/Link';
 
 type NextComposedProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & NextLinkProps;
 
-const NextComposed = React.forwardRef(function NextComposed(props: NextComposedProps, ref: React.Ref<HTMLAnchorElement>) {
-  const { as, href, ...other } = props;
+const NextComposed = React.forwardRef(function NextComposed(
+  props: NextComposedProps,
+  ref: React.Ref<HTMLAnchorElement>
+) {
+  const {as, href, ...other} = props;
 
   return (
     <NextLink href={href} as={as}>
@@ -49,4 +52,6 @@ function Link(props: LinkProps) {
   );
 }
 
-export default React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => <Link {...props} innerRef={ref} />);
+export default React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => (
+  <Link {...props} innerRef={ref} />
+));

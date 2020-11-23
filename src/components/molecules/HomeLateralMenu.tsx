@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 
-import {Divider, Typography, List, ListSubheader} from '@material-ui/core';
+import {Typography, List} from '@material-ui/core';
 
 import CustomListItem, {TypeMusic} from 'components/atoms/CustomListItem';
 
@@ -22,18 +22,10 @@ const HomeLateralMenu: React.FC<PropsHomeLateralMenu> = ({playlists, title}) => 
   return (
     <>
       <Typography className={classes.title}>{title.toUpperCase()}</Typography>
-      <Divider />
-      <List
-        className={classes.list}
-        component="nav"
-        subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
-            Playlists
-          </ListSubheader>
-        }
-      >
+
+      <List className={classes.list} component="nav">
         {playlists.map(({name, musics}) => (
-          <CustomListItem key={name} playlistName={name} musics={musics} />
+          <CustomListItem key={name} playlistName={name.toUpperCase()} musics={musics} />
         ))}
       </List>
     </>

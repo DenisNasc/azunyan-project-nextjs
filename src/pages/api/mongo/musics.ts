@@ -5,7 +5,7 @@ import MusicsSchema, {IMusics} from 'database/schemas/musics';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {method} = req;
-  const {artist} = req.query;
+  const {artist, musicName} = req.query;
 
   switch (method) {
     case 'GET': {
@@ -25,6 +25,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify(resQuery));
 
+          return;
+        }
+
+        if (musicName) {
+          const resQuery = await musics.find({artist: `${artist}`});
+          const music = resQuery[0].musics.find(({name}) => name === musicName);
+
+          res.statusCode = 200;
+          res.end(JSON.stringify(music));
           return;
         }
 

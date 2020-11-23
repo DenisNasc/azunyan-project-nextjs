@@ -2,14 +2,11 @@ import type {Action} from 'redux';
 import type {StateController} from 'state/store/types';
 
 type TypeMusic = {
-  id: string;
   name: string;
   artist: string;
-  lyrics?: string;
 };
 
 type TypePlaylist = {
-  id: string;
   name: string;
   musics: TypeMusic[];
 };
@@ -18,6 +15,7 @@ type TypeUser = {
   id: string;
   name: string;
   email: string;
+  profileImage: string;
   playlists: TypePlaylist[];
 };
 

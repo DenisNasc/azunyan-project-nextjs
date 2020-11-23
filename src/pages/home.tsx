@@ -1,13 +1,18 @@
 import React from 'react';
 import Head from 'next/head';
 
+import {useSelector} from 'react-redux';
+
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 import {Grid} from '@material-ui/core';
 
-import Player from '../components/systems/Player';
-import HomeHeader from '../components/molecules/HomeHeader';
-import HomeLateralMenu, {TypePlaylist} from '../components/molecules/HomeLateralMenu';
-import HomeDisplay from '../components/systems/HomeDisplay';
+import Player from 'components/systems/Player';
+import HomeHeader from 'components/molecules/HomeHeader';
+import HomeLateralMenu from 'components/molecules/HomeLateralMenu';
+import HomeDisplay from 'components/systems/HomeDisplay';
+
+import type {StateAppReducer} from 'state/reducers/app/types';
+import type {StateStore} from 'state/store/types';
 
 interface PropsHomePage {}
 
@@ -19,41 +24,11 @@ const user = {
   email: 'devdenisbr@gmail.com',
 };
 
-const playlists: TypePlaylist[] = [
-  {
-    name: 'playlist 1',
-    musics: [
-      {
-        name: 'Road of Resistance',
-        artist: 'BABY METAL',
-        released: '29/09/1998',
-      },
-      {
-        name: 'musics 2 pl 1',
-        artist: 'artist 2',
-        released: '29/09/2008',
-      },
-    ],
-  },
-  {
-    name: 'playlist 2',
-    musics: [
-      {
-        name: 'musics 1 pl 2',
-        artist: 'artist 1',
-        released: '29/09/1998',
-      },
-      {
-        name: 'musics 2 pl 2',
-        artist: 'artist 2',
-        released: '29/09/2008',
-      },
-    ],
-  },
-];
-
 const HomePage: React.FC<PropsHomePage> = () => {
   const classes = useStyles({});
+  const {
+    user: {playlists},
+  } = useSelector<StateStore, StateAppReducer>(state => state.appReducer);
 
   return (
     <>
@@ -72,7 +47,7 @@ const HomePage: React.FC<PropsHomePage> = () => {
         </Grid>
 
         <Grid item xs={2} className={classes.menu}>
-          <HomeLateralMenu title="menu" playlists={playlists} />
+          <HomeLateralMenu title="playlists" playlists={playlists} />
         </Grid>
 
         <Grid item xs={10} className={classes.display}>
@@ -99,11 +74,11 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '0px',
     },
     header: {
-      background: '#333333',
+      background: theme.palette.background.paper,
       height: '60px',
     },
     menu: {
-      background: '#666666',
+      background: theme.palette.background.paper,
       height: 'calc(100vh - 60px - 60px)',
     },
     display: {

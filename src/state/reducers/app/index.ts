@@ -14,7 +14,18 @@ export const initialState: StateAppReducer = {
     email: '',
     id: '',
     name: '',
-    playlists: [],
+    profileImage: '',
+    playlists: [
+      {
+        name: 'japanese music',
+        musics: [
+          {name: 'road of resistance', artist: 'baby metal'},
+          {name: 'masterpiece', artist: 'scandal'},
+          {name: 'kiseki rush', artist: 'girlfriend'},
+          {name: 'far', artist: 'ueda marie'},
+        ],
+      },
+    ],
   },
   errorMessage: '',
   stateController: {
