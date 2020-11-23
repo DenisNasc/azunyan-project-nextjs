@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {useSelector} from 'react-redux';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
@@ -15,6 +15,7 @@ import type {StateAppReducer} from 'state/reducers/app/types';
 const Player = () => {
   const classes = useStyles({});
   const {currentMusic} = useSelector<StateStore, StateAppReducer>(state => state.appReducer);
+  const audioPlayerRef = useRef<HTMLAudioElement>(null);
 
   const {name, artist} = currentMusic;
 
@@ -27,18 +28,19 @@ const Player = () => {
       className={classes.container}
     >
       <Grid item container xs={2} justify="center" alignItems="center">
-        <MusicControls />
+        <MusicControls audioPlayerRef={audioPlayerRef} />
       </Grid>
 
       <Grid item container xs={8} justify="center" alignItems="center">
         <MusicProgressBar
           artist={artist.trim().replace(/ /g, '_').toLowerCase()}
           musicName={name.trim().replace(/ /g, '_').toLowerCase()}
+          audioPlayerRef={audioPlayerRef}
         />
       </Grid>
 
       <Grid item container xs={2} justify="center">
-        <VolumeSlider />
+        <VolumeSlider audioPlayerRef={audioPlayerRef} />
       </Grid>
     </Grid>
   );
@@ -49,12 +51,12 @@ export default Player;
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
-      padding: '0px 20px',
+      padding: `0px ${theme.spacing(3)}px`,
       height: '60px',
       width: '100%',
       maxWidth: 'none',
       margin: '0px',
-      background: '#f3f3f3',
+      background: theme.palette.background.paper,
     },
   })
 );
