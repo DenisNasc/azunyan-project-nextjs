@@ -19,16 +19,17 @@ type TypeUser = {
   playlists: TypePlaylist[];
 };
 
-type TypeCurrentMusic = {
+type TypeCurrentPlaylist = {
   artist: string;
   name: string;
   lyrics: string[][];
-};
+}[];
 
 type PayloadAppReducer = {
   query?: string;
-  currentMusic?: TypeCurrentMusic;
-  user?: TypeUser;
+  addMusicToCurrentPlaylist?: {name: string; artist: string; lyrics: string[][]};
+  setCurrentMusic?: {name: string; artist: string; lyrics: string[][]};
+  setCurrentPlaylist?: TypeCurrentPlaylist;
   music?: TypeMusic;
   errorMessage?: string;
   stateController?: StateController;
@@ -40,8 +41,7 @@ export interface ActionAppReducer extends Action<string> {
 
 export interface StateAppReducer {
   query: string;
-  currentMusic: TypeCurrentMusic;
-  user: TypeUser;
+  currentPlaylist: TypeCurrentPlaylist;
   errorMessage: string;
   stateController: StateController;
 }

@@ -1,4 +1,5 @@
 import type {StateAppReducer} from 'state/reducers/app/types';
+import type {StateUserReducer} from 'state/reducers/user/types';
 
 export type StateController = {
   start: boolean;
@@ -8,4 +9,5 @@ export type StateController = {
 
 export interface StateStore {
   appReducer: StateAppReducer;
+  userReducer: StateUserReducer;
 }

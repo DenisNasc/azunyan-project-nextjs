@@ -7,13 +7,13 @@ import {Container, List, ListItem, Typography} from '@material-ui/core';
 import CustomVerse from 'components/atoms/CustomVerse';
 import {HANDLE_MUSIC_QUERY} from 'state/actions/app';
 
-import type {TypeCurrentMusic} from 'state/reducers/app/types';
-
 interface PropsDisplayLyrics {
-  currentMusic: TypeCurrentMusic;
+  name: string | undefined;
+  artist: string | undefined;
+  lyrics: string[][] | undefined;
 }
 
-const DisplayLyrics: React.FC<PropsDisplayLyrics> = ({currentMusic: {name, artist, lyrics}}) => {
+const DisplayLyrics: React.FC<PropsDisplayLyrics> = ({name = '', artist = '', lyrics = []}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 

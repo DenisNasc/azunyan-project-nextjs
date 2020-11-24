@@ -19,7 +19,9 @@ const HomeDisplay: React.FC = () => {
 
   const axios = createAxiosInstance();
 
-  const {query, currentMusic} = useSelector<StateStore, StateAppReducer>(state => state.appReducer);
+  const {query, currentPlaylist} = useSelector<StateStore, StateAppReducer>(
+    state => state.appReducer
+  );
 
   useEffect(() => {
     const awaitAxios = async () => {
@@ -43,7 +45,11 @@ const HomeDisplay: React.FC = () => {
         justify="center"
         className={classes.containerRight}
       >
-        <DisplayLyrics currentMusic={currentMusic} />
+        <DisplayLyrics
+          name={currentPlaylist[0] ? currentPlaylist[0].name : undefined}
+          artist={currentPlaylist[0] ? currentPlaylist[0].artist : undefined}
+          lyrics={currentPlaylist[0] ? currentPlaylist[0].lyrics : undefined}
+        />
       </Grid>
     </Grid>
   );

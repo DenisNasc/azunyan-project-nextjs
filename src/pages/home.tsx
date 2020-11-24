@@ -11,7 +11,7 @@ import HomeHeader from 'components/molecules/HomeHeader';
 import HomeLateralMenu from 'components/molecules/HomeLateralMenu';
 import HomeDisplay from 'components/systems/HomeDisplay';
 
-import type {StateAppReducer} from 'state/reducers/app/types';
+import type {StateUserReducer} from 'state/reducers/user/types';
 import type {StateStore} from 'state/store/types';
 
 interface PropsHomePage {}
@@ -26,9 +26,10 @@ const user = {
 
 const HomePage: React.FC<PropsHomePage> = () => {
   const classes = useStyles({});
-  const {
-    user: {playlists},
-  } = useSelector<StateStore, StateAppReducer>(state => state.appReducer);
+  const {playlists, errorMessage, name, email, profileImage} = useSelector<
+    StateStore,
+    StateUserReducer
+  >(state => state.userReducer);
 
   return (
     <>
@@ -46,11 +47,11 @@ const HomePage: React.FC<PropsHomePage> = () => {
           <HomeHeader user={user} />
         </Grid>
 
-        <Grid item xs={2} className={classes.menu}>
-          <HomeLateralMenu title="playlists" playlists={playlists} />
+        <Grid item xs={3} className={classes.menu}>
+          <HomeLateralMenu title="playlists" playlists={playlists} errorMessage={errorMessage} />
         </Grid>
 
-        <Grid item xs={10} className={classes.display}>
+        <Grid item xs={9} className={classes.display}>
           <HomeDisplay />
         </Grid>
 

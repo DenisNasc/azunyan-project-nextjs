@@ -23,10 +23,10 @@ const CustomSearchMusic = () => {
     (event: React.FormEvent<HTMLDivElement>) => {
       event.preventDefault();
       const payload = {query: musicQuery};
-      console.log(payload);
+
       dispatch({type: HANDLE_MUSIC_QUERY, payload});
     },
-    [musicQuery]
+    [musicQuery, dispatch]
   );
 
   return (

@@ -14,10 +14,16 @@ import type {StateAppReducer} from 'state/reducers/app/types';
 
 const Player = () => {
   const classes = useStyles({});
-  const {currentMusic} = useSelector<StateStore, StateAppReducer>(state => state.appReducer);
+  const {currentPlaylist} = useSelector<StateStore, StateAppReducer>(state => state.appReducer);
   const audioPlayerRef = useRef<HTMLAudioElement>(null);
 
-  const {name, artist} = currentMusic;
+  let name = '';
+  let artist = '';
+
+  if (currentPlaylist[0]) {
+    name = currentPlaylist[0].name;
+    artist = currentPlaylist[0].artist;
+  }
 
   return (
     <Grid

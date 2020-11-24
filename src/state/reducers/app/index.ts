@@ -5,28 +5,8 @@ import type {ActionAppReducer, StateAppReducer} from './types';
 
 export const initialState: StateAppReducer = {
   query: '',
-  currentMusic: {
-    artist: '',
-    name: '',
-    lyrics: [],
-  },
-  user: {
-    email: '',
-    id: '',
-    name: '',
-    profileImage: '',
-    playlists: [
-      {
-        name: 'japanese music',
-        musics: [
-          {name: 'road of resistance', artist: 'baby metal'},
-          {name: 'masterpiece', artist: 'scandal'},
-          {name: 'kiseki rush', artist: 'girlfriend'},
-          {name: 'far', artist: 'ueda marie'},
-        ],
-      },
-    ],
-  },
+  currentPlaylist: [],
+
   errorMessage: '',
   stateController: {
     start: false,
@@ -43,8 +23,24 @@ const appReducer: Reducer<StateAppReducer, ActionAppReducer> = (state = initialS
       return {...state, query: payload.query};
     }
 
+    case appReducerActions.ADD_MUSIC_TO_CURRENT_PLAYLIST: {
+      return {
+        ...state,
+        currentPlaylist: state.currentPlaylist.concat(payload.addMusicToCurrentPlaylist),
+      };
+    }
+
     case appReducerActions.SET_CURRENT_MUSIC: {
-      return {...state, currentMusic: payload.currentMusic};
+      const newPlaylist = [...state.currentPlaylist];
+      newPlaylist.splice(0, 1, payload.setCurrentMusic);
+      return {
+        ...state,
+        currentPlaylist: newPlaylist,
+      };
+    }
+
+    case appReducerActions.SET_CURRENT_PLAYLIST: {
+      return {...state, currentPlaylist: payload.setCurrentPlaylist};
     }
 
     default: {

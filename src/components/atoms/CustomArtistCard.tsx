@@ -13,9 +13,12 @@ import {
   List,
   ListItem,
   Container,
+  IconButton,
 } from '@material-ui/core';
 
-import {SET_CURRENT_MUSIC} from 'state/actions/app';
+import {PlayArrow as IconPlayArrow, PlaylistAdd as IconPlaylistAdd} from '@material-ui/icons';
+
+import {ADD_MUSIC_TO_CURRENT_PLAYLIST, SET_CURRENT_MUSIC} from 'state/actions/app';
 
 interface Props {
   artistName: string;
@@ -29,10 +32,21 @@ const CustomArtistCard: React.FC<Props> = ({artistName, musics}) => {
 
   const handleOpen = useCallback(() => setOpen(!open), [open]);
 
-  const setCurrentMusic = useCallback(({name, lyrics, artist}) => {
-    const payload = {currentMusic: {name, lyrics, artist}};
-    dispatch({type: SET_CURRENT_MUSIC, payload});
-  }, []);
+  const setCurrentMusic = useCallback(
+    ({name, lyrics, artist}) => {
+      const payload = {setCurrentMusic: {name, lyrics, artist}};
+      dispatch({type: SET_CURRENT_MUSIC, payload});
+    },
+    [dispatch]
+  );
+
+  const addMusicToCurrentPlaylist = useCallback(
+    ({name, lyrics, artist}) => {
+      const payload = {addMusicToCurrentPlaylist: {name, lyrics, artist}};
+      dispatch({type: ADD_MUSIC_TO_CURRENT_PLAYLIST, payload});
+    },
+    [dispatch]
+  );
 
   return (
     <Container className={classes.container}>
@@ -59,15 +73,20 @@ const CustomArtistCard: React.FC<Props> = ({artistName, musics}) => {
       </Card>
 
       <Collapse className={classes.collapse} in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
+        <List disablePadding>
           {musics.map(({name, lyrics}) => (
-            <ListItem
-              key={name}
-              onClick={() => setCurrentMusic({name, lyrics, artist: artistName})}
-              button
-              className={classes.listItem}
-            >
+            <ListItem key={name} className={classes.listItem}>
               <Typography className={classes.typography}>{name.toUpperCase()}</Typography>
+              <div>
+                <IconButton onClick={() => setCurrentMusic({name, lyrics, artist: artistName})}>
+                  <IconPlayArrow />
+                </IconButton>
+                <IconButton
+                  onClick={() => addMusicToCurrentPlaylist({name, lyrics, artist: artistName})}
+                >
+                  <IconPlaylistAdd />
+                </IconButton>
+              </div>
             </ListItem>
           ))}
         </List>
@@ -112,6 +131,8 @@ const useStyles = makeStyles((theme: Theme) =>
     listItem: {
       padding: '0px',
       margin: '0px',
+      display: 'flex',
+      justifyContent: 'space-between',
       marginTop: theme.spacing(1),
     },
     typography: {
