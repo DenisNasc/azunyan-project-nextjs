@@ -4,29 +4,26 @@ import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 
 import {List, ListItem} from '@material-ui/core';
 
-import CustomSearchMusic from 'components/atoms/CustomSearchMusic';
-import CustomArtistCard from 'components/atoms/CustomArtistCard';
+import CustomArtistCard from 'components/singular/CustomArtistCard';
 
-type TypeMusicsFromDB = {
-  _id: string;
+type TypeArtists = {
   artist: string;
   musics: {name: string; lyrics: string[][]}[];
 }[];
 
 interface Props {
   query: string;
-  musicsFromDB: TypeMusicsFromDB;
+  artists: TypeArtists;
 }
 
-const DisplaySearch: React.FC<Props> = ({query, musicsFromDB}) => {
+const DisplaySearch: React.FC<Props> = ({query, artists}) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.container}>
-      <CustomSearchMusic />
-      {!!musicsFromDB.length && (
+    <>
+      {!!artists.length && (
         <List className={classes.artistsList}>
-          {musicsFromDB
+          {artists
             .filter(({artist}) => artist.toLowerCase().includes(query.trim().toLowerCase()))
             .map(({artist, musics}) => (
               <ListItem key={artist} className={classes.artistsListItem}>
@@ -35,7 +32,7 @@ const DisplaySearch: React.FC<Props> = ({query, musicsFromDB}) => {
             ))}
         </List>
       )}
-    </div>
+    </>
   );
 };
 
@@ -43,14 +40,6 @@ export default DisplaySearch;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    container: {
-      width: '100%',
-      padding: `${theme.spacing(3)}px 0px`,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-    },
     artistsList: {
       display: 'flex',
       flexDirection: 'column',

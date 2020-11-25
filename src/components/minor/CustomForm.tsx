@@ -4,7 +4,7 @@ import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 import {Button, Container} from '@material-ui/core';
 import {Alert} from '@material-ui/lab';
 
-import CustomInput, {PropsFields} from 'components/atoms/CustomInput';
+import CustomInput, {PropsFields} from 'components/singular/CustomInput';
 
 interface PropsSignUpForm {
   fields: PropsFields[];

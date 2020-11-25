@@ -1,16 +1,32 @@
 import React, {useState, useEffect, useCallback} from 'react';
 
-import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
+import {Theme, makeStyles, withStyles, createStyles} from '@material-ui/core/styles';
 
 import {Container, LinearProgress, Typography} from '@material-ui/core';
 
-interface PropsMusicProgressBar {
+interface Props {
   artist: string;
   musicName: string;
   audioPlayerRef: React.MutableRefObject<HTMLAudioElement>;
 }
 
-const MusicProgressBar: React.FC<PropsMusicProgressBar> = ({artist, musicName, audioPlayerRef}) => {
+const StyledLinearProgress = withStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      height: 10,
+      borderRadius: 5,
+    },
+    colorPrimary: {
+      backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
+    },
+    bar: {
+      borderRadius: 5,
+      backgroundColor: '#1a90ff',
+    },
+  })
+)(LinearProgress);
+
+const MusicProgressBar: React.FC<Props> = ({artist, musicName, audioPlayerRef}) => {
   const classes = useStyles();
   const [progressBarValue, setProgressBarValue] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
@@ -55,7 +71,7 @@ const MusicProgressBar: React.FC<PropsMusicProgressBar> = ({artist, musicName, a
     <Container className={classes.container}>
       <audio src={`/api/musics?artist=${artist}&musicName=${musicName}`} ref={audioPlayerRef} />
 
-      <LinearProgress
+      <StyledLinearProgress
         color="primary"
         value={progressBarValue}
         className={classes.progressBar}
@@ -87,13 +103,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     progressBar: {
       width: '100%',
-      height: '5px',
-      backgroundColor: theme.palette.background.paper,
-      border: '0px black solid',
-      borderRadius: '20px',
-      minHeight: '0px',
-      margin: '0px',
-      padding: '0px',
     },
     timersContainer: {
       display: 'flex',

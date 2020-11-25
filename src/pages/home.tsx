@@ -6,30 +6,21 @@ import {useSelector} from 'react-redux';
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 import {Grid} from '@material-ui/core';
 
-import Player from 'components/systems/Player';
-import HomeHeader from 'components/molecules/HomeHeader';
-import HomeLateralMenu from 'components/molecules/HomeLateralMenu';
-import HomeDisplay from 'components/systems/HomeDisplay';
+import HomeHeader from 'components/major/HomeHeader';
+import HomePlaylistMenu from 'components/major/HomePlaylistMenu';
+import HomeDisplay from 'components/major/HomeDisplay';
+import HomePlayer from 'components/major/HomePlayer';
 
-import type {StateUserReducer} from 'state/reducers/user/types';
-import type {StateStore} from 'state/store/types';
+import type StateStore from 'state/types';
+import type StateUser from 'state/types/user';
 
-interface PropsHomePage {}
+interface Props {}
 
-const user = {
-  id: '0123456789',
-  name: 'Denis Nascimento',
-  imageUrl:
-    'https://images.pexels.com/photos/4505279/pexels-photo-4505279.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260',
-  email: 'devdenisbr@gmail.com',
-};
-
-const HomePage: React.FC<PropsHomePage> = () => {
+const HomePage: React.FC<Props> = () => {
   const classes = useStyles({});
-  const {playlists, errorMessage, name, email, profileImage} = useSelector<
-    StateStore,
-    StateUserReducer
-  >(state => state.userReducer);
+  const {playlists, errorMessage, name, id, profileImageUrl} = useSelector<StateStore, StateUser>(
+    state => state.user
+  );
 
   return (
     <>
@@ -44,19 +35,19 @@ const HomePage: React.FC<PropsHomePage> = () => {
         className={classes.container}
       >
         <Grid item xs={12} className={classes.header}>
-          <HomeHeader user={user} />
+          <HomeHeader name={name} profileImageUrl={profileImageUrl} id={id} />
         </Grid>
 
         <Grid item xs={3} className={classes.menu}>
-          <HomeLateralMenu title="playlists" playlists={playlists} errorMessage={errorMessage} />
+          <HomePlaylistMenu title="playlists" playlists={playlists} errorMessage={errorMessage} />
         </Grid>
 
-        <Grid item xs={9} className={classes.display}>
+        <Grid item container xs={9} justify="space-between" className={classes.display}>
           <HomeDisplay />
         </Grid>
 
         <Grid item container xs={12} className={classes.player}>
-          <Player />
+          <HomePlayer />
         </Grid>
       </Grid>
     </>

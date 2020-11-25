@@ -4,16 +4,17 @@ import {useDispatch} from 'react-redux';
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 import {Container, List, ListItem, Typography} from '@material-ui/core';
 
-import CustomVerse from 'components/atoms/CustomVerse';
+import CustomVerse from 'components/singular/CustomVerse';
+
 import {HANDLE_MUSIC_QUERY} from 'state/actions/app';
 
-interface PropsDisplayLyrics {
+interface Props {
   name: string | undefined;
   artist: string | undefined;
   lyrics: string[][] | undefined;
 }
 
-const DisplayLyrics: React.FC<PropsDisplayLyrics> = ({name = '', artist = '', lyrics = []}) => {
+const DisplayLyrics: React.FC<Props> = ({name = '', artist = '', lyrics = []}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -35,7 +36,7 @@ const DisplayLyrics: React.FC<PropsDisplayLyrics> = ({name = '', artist = '', ly
         </Typography>
       </Container>
 
-      <List className={classes.ListLyrics}>
+      <List className={classes.listLyrics}>
         {lyrics.map(paragraf => (
           <ListItem key={(Math.random() * 10000).toFixed(0)} className={classes.listItemLyrics}>
             {paragraf.map(verse => (
@@ -73,7 +74,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: '0px',
       marginTop: `${theme.spacing(3)}px`,
     },
-    ListLyrics: {
+    listLyrics: {
       listStyle: 'none',
       display: 'flex',
       flexDirection: 'column',
@@ -82,7 +83,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: '0px',
       width: '80%',
       maxHeight: '800px',
-      overflowY: 'scroll',
+      overflowY: 'auto',
       background: theme.palette.background.paper,
       marginBottom: `${theme.spacing(3)}px`,
     },

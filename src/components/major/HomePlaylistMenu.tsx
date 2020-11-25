@@ -1,30 +1,35 @@
 import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 
 import {Typography, List, ListItem, Container, IconButton, TextField} from '@material-ui/core';
+import {Alert} from '@material-ui/lab';
 import {
   Add as IconAdd,
   Done as IconDone,
   CancelOutlined as IconCancelOutlined,
 } from '@material-ui/icons';
-import {Alert} from '@material-ui/lab';
 
-import CustomListItem from 'components/atoms/CustomListItem';
-import {ADD_PLAYLIST, HANDLE_ERROR_MESSAGE} from 'state/actions/user';
+import CustomListItem from 'components/singular/CustomListItem';
 
-import {TypePlaylist} from 'state/reducers/user/types';
+import type {TypePlaylist} from 'state/reducers/user/types';
 
-interface PropsHomeLateralMenu {
+import type StateStore from 'state/types';
+import type StateUser from 'state/types/user';
+
+import {ADD_PLAYLIST, USER_HANDLE_ERROR_MESSAGE} from 'state/actions/user';
+
+interface Props {
   playlists: TypePlaylist[];
   errorMessage: string;
   title: string;
 }
 
-const HomeLateralMenu: React.FC<PropsHomeLateralMenu> = ({playlists, title, errorMessage}) => {
+const HomePlaylistMenu: React.FC<Props> = ({playlists, title, errorMessage}) => {
   const classes = useStyles({});
   const dispatch = useDispatch();
+  const {id} = useSelector<StateStore, StateUser>(state => state.user);
 
   const [textFieldOpen, setTextFieldOpen] = useState(false);
   const [textFieldValue, setTextFieldValue] = useState('');
@@ -53,7 +58,7 @@ const HomeLateralMenu: React.FC<PropsHomeLateralMenu> = ({playlists, title, erro
     const payload = {
       erroMessage: '',
     };
-    dispatch({type: HANDLE_ERROR_MESSAGE, payload});
+    dispatch({type: USER_HANDLE_ERROR_MESSAGE, payload});
   };
 
   const handleTextField = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -65,7 +70,11 @@ const HomeLateralMenu: React.FC<PropsHomeLateralMenu> = ({playlists, title, erro
       <Container className={classes.header}>
         <Typography className={classes.title}>{title.toUpperCase()}</Typography>
 
-        <IconButton disabled={textFieldOpen} className={classes.addButton} onClick={openTextField}>
+        <IconButton
+          disabled={textFieldOpen || !id}
+          className={classes.addButton}
+          onClick={openTextField}
+        >
           <IconAdd />
         </IconButton>
       </Container>
@@ -89,24 +98,29 @@ const HomeLateralMenu: React.FC<PropsHomeLateralMenu> = ({playlists, title, erro
           </IconButton>
         </Container>
       )}
+
       {errorMessage && (
         <Alert className={classes.alert} variant="outlined" severity="error" onClose={closeAlert}>
           {errorMessage}
         </Alert>
       )}
 
-      <List className={classes.list}>
-        {playlists.map(({name, musics}) => (
-          <ListItem key={name} className={classes.listItem}>
-            <CustomListItem key={name} playlistName={name.toUpperCase()} musics={musics} />
-          </ListItem>
-        ))}
-      </List>
+      {!id ? (
+        <Typography align="center">Sign for create playlists</Typography>
+      ) : (
+        <List className={classes.list}>
+          {playlists.map(({name, musics}) => (
+            <ListItem key={name} className={classes.listItem}>
+              <CustomListItem key={name} playlistName={name.toUpperCase()} musics={musics} />
+            </ListItem>
+          ))}
+        </List>
+      )}
     </>
   );
 };
 
-export default HomeLateralMenu;
+export default HomePlaylistMenu;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

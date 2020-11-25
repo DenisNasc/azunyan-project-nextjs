@@ -20,28 +20,29 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const musics = connection.model<IMusics>('musics', MusicsSchema);
 
         if (artist === 'all') {
-          const resQuery = await musics.find();
+          const data = await musics.find();
+          const filtredData = data.map(e => ({artist: e.artist, musics: e.musics}));
           res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json');
-          res.end(JSON.stringify(resQuery));
+          res.end(JSON.stringify(filtredData));
 
           return;
         }
 
         if (musicName) {
-          const resQuery = await musics.find({artist: `${artist}`});
-          const music = resQuery[0].musics.find(({name}) => name === musicName);
+          const data = await musics.find({artist: `${artist}`});
+          const music = data[0].musics.find(({name}) => name === musicName);
 
           res.statusCode = 200;
           res.end(JSON.stringify(music));
           return;
         }
 
-        const resQuery = await musics.find({artist: `${artist}`});
+        const data = await musics.find({artist: `${artist}`});
 
-        console.log(resQuery);
+        console.log(data);
 
-        if (!resQuery.length) {
+        if (!data.length) {
           res.statusCode = 200;
           res.send(`não há informações do artista ${artist}`);
           return;
@@ -49,7 +50,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify(resQuery));
+        res.end(JSON.stringify(data));
 
         connection.close();
       } catch (error) {

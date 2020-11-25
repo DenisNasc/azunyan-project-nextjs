@@ -4,8 +4,8 @@ import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 
 import {Grid, Typography} from '@material-ui/core';
 
-import {PropsFields} from 'components/atoms/CustomInput';
-import CustomForm from 'components/molecules/CustomForm';
+import {PropsFields} from 'components/singular/CustomInput';
+import CustomForm from 'components/minor/CustomForm';
 
 const formFields: PropsFields[] = [
   {

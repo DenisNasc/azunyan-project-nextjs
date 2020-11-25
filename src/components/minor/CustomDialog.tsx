@@ -3,8 +3,8 @@ import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 
 import {Button, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 
-import {PropsFields} from 'components/atoms/CustomInput';
-import CustomForm from 'components/molecules/CustomForm';
+import {PropsFields} from 'components/singular/CustomInput';
+import CustomForm from 'components/minor/CustomForm';
 
 interface PropsCustomDialog {
   dialogOpen: boolean;

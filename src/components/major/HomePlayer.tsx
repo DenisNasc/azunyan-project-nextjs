@@ -5,16 +5,16 @@ import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 
 import {Grid} from '@material-ui/core';
 
-import MusicControls from 'components/molecules/MusicControls';
-import MusicProgressBar from 'components/molecules/MusicProgressBar';
-import VolumeSlider from 'components/molecules/VolumeSlider';
+import MusicControls from 'components/minor/MusicControls';
+import MusicProgressBar from 'components/minor/MusicProgressBar';
+import VolumeSlider from 'components/minor/VolumeSlider';
 
-import type {StateStore} from 'state/store/types';
-import type {StateAppReducer} from 'state/reducers/app/types';
+import type StateStore from 'state/types';
+import type StateApp from 'state/types/app';
 
 const Player = () => {
   const classes = useStyles({});
-  const {currentPlaylist} = useSelector<StateStore, StateAppReducer>(state => state.appReducer);
+  const {currentPlaylist} = useSelector<StateStore, StateApp>(state => state.app);
   const audioPlayerRef = useRef<HTMLAudioElement>(null);
 
   let name = '';

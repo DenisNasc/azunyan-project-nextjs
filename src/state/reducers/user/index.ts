@@ -1,14 +1,15 @@
-import {PlaylistAdd} from '@material-ui/icons';
 import type {Reducer} from 'redux';
 
-import * as userReducerActions from '../../actions/user';
-import type {ActionUserReducer, StateUserReducer} from './types';
+import * as ACTIONS from 'state/actions/user';
 
-export const initialState: StateUserReducer = {
+import type StateUser from 'state/types/user';
+import type ActionUser from './types';
+
+export const initialState: StateUser = {
   email: '',
   id: '',
   name: '',
-  profileImage: '',
+  profileImageUrl: '',
   playlists: [
     {
       name: 'japanese music',
@@ -21,37 +22,38 @@ export const initialState: StateUserReducer = {
     },
   ],
   errorMessage: '',
-  userStateController: {
+  stateController: {
     start: false,
     success: false,
     fail: false,
   },
 };
 
-const userReducer: Reducer<StateUserReducer, ActionUserReducer> = (
-  state = initialState,
-  action
-) => {
+const userReducer: Reducer<StateUser, ActionUser> = (state = initialState, action) => {
   const {type, payload} = action;
 
   switch (type) {
-    case userReducerActions.USER_STATE_CONTROLLER_START: {
-      return {...state, userStateController: {start: true, success: false, fail: false}};
+    case ACTIONS.USER_STATE_CONTROLLER_START: {
+      return {...state, stateController: {start: true, success: false, fail: false}};
     }
 
-    case userReducerActions.USER_STATE_CONTROLLER_SUCCESS: {
-      return {...state, userStateController: {start: false, success: true, fail: false}};
+    case ACTIONS.USER_STATE_CONTROLLER_SUCCESS: {
+      return {...state, stateController: {start: false, success: true, fail: false}};
     }
 
-    case userReducerActions.USER_STATE_CONTROLLER_FAIL: {
-      return {...state, userStateController: {start: false, success: false, fail: true}};
+    case ACTIONS.USER_STATE_CONTROLLER_FAIL: {
+      return {...state, stateController: {start: false, success: false, fail: true}};
     }
 
-    case userReducerActions.HANDLE_ERROR_MESSAGE: {
+    case ACTIONS.HANDLE_USER: {
+      return {...state, ...payload.handleUser};
+    }
+
+    case ACTIONS.USER_HANDLE_ERROR_MESSAGE: {
       return {...state, errorMessage: payload.errorMessage};
     }
 
-    case userReducerActions.ADD_PLAYLIST: {
+    case ACTIONS.ADD_PLAYLIST: {
       const playlistExists = state.playlists.find(
         e => e.name.toLowerCase() === payload.newPlaylist.name.toLowerCase()
       );
@@ -69,7 +71,7 @@ const userReducer: Reducer<StateUserReducer, ActionUserReducer> = (
       };
     }
 
-    case userReducerActions.DEL_PLAYLIST: {
+    case ACTIONS.DEL_PLAYLIST: {
       return {
         ...state,
         playlists: state.playlists.filter(
@@ -78,7 +80,7 @@ const userReducer: Reducer<StateUserReducer, ActionUserReducer> = (
       };
     }
 
-    case userReducerActions.DEL_MUSIC_FROM_PLAYLIST: {
+    case ACTIONS.DEL_MUSIC_FROM_PLAYLIST: {
       const {playlist, music, artist} = payload.delMusic;
 
       const thisPlaylist = state.playlists.find(

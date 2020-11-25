@@ -1,9 +1,9 @@
 import {combineReducers} from 'redux';
 
-import appReducer from './app';
-import userReducer from './user';
+import app from 'state/reducers/app';
+import user from 'state/reducers/user';
 
-const reducers = {appReducer, userReducer};
+const reducers = {app, user};
 
 const rootReducer = combineReducers(reducers);
 

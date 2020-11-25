@@ -5,10 +5,10 @@ import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 
 import {Grid, Paper, Typography} from '@material-ui/core';
 
-import Link from 'components/Link';
+import Link from 'components/utils/Link';
 
-import SignUp from 'components/systems/SignUp';
-import Login from 'components/systems/Login';
+import SignUp from 'components/major/SignUp';
+import Login from 'components/major/Login';
 
 import {useSelector} from 'react-redux';
 

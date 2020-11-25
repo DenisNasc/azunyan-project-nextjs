@@ -4,7 +4,7 @@ import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 
 import {Button, Grid, Typography} from '@material-ui/core';
 
-import CustomDialog from 'components/molecules/CustomDialog';
+import CustomDialog from 'components/minor/CustomDialog';
 
 const Login: React.FC = () => {
   const classes = useStyles({});

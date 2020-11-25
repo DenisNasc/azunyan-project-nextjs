@@ -1,26 +1,9 @@
 import type {Action} from 'redux';
 import type {StateController} from 'state/store/types';
+import type {User} from 'state/types/user';
 
-type TypePlaylist = {
-  name: string;
-  musics: {name: string; artist: string}[];
-};
-
-export interface StateUserReducer {
-  email: string;
-  id: string;
-  name: string;
-  profileImage: string;
-  playlists: TypePlaylist[];
-  errorMessage: string;
-  userStateController: {
-    start: boolean;
-    success: boolean;
-    fail: boolean;
-  };
-}
-
-type PayloadUserReducer = {
+export type PayloadUser = {
+  handleUser?: User;
   newPlaylist?: {name: string};
   delPlaylist?: {name: string};
   delMusic?: {playlist: string; music: string; artist: string};
@@ -28,6 +11,6 @@ type PayloadUserReducer = {
   stateController?: StateController;
 };
 
-export interface ActionUserReducer extends Action<string> {
-  payload?: PayloadUserReducer;
+export default interface ActionUser extends Action<string> {
+  payload: PayloadUser;
 }
